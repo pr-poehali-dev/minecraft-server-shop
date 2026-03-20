@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 const LINKS = [
-  { icon: "🎮", label: "Discord-сервер", value: "discord.gg/craftland", sub: "2 400+ участников", href: "#" },
-  { icon: "✈️", label: "Telegram", value: "@craftland_server", sub: "Новости и обновления", href: "#" },
-  { icon: "📧", label: "Email", value: "admin@craftland.ru", sub: "Ответим за 24 часа", href: "mailto:admin@craftland.ru" },
-  { icon: "🖥️", label: "IP сервера", value: "play.craftland.ru", sub: "Версия 1.20.4 Java", href: null },
+  { icon: "🎮", label: "Discord-сервер", value: "discord.gg/klever", sub: "2 400+ участников", href: "#" },
+  { icon: "✈️", label: "Telegram", value: "@klever_server", sub: "Новости и обновления", href: "#" },
+  { icon: "📧", label: "Email", value: "admin@klever.ru", sub: "Ответим за 24 часа", href: "mailto:admin@klever.ru" },
+  { icon: "🖥️", label: "IP сервера", value: "play.klever.ru", sub: "Версия 1.20.4 Java", href: null },
 ];
 
 export default function PageContacts() {

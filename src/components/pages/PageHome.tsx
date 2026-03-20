@@ -38,7 +38,7 @@ export default function PageHome({ navigate }: { navigate: (p: Page) => void }) 
             </div>
 
             <h1 className="text-5xl md:text-6xl font-black leading-tight mb-4 tracking-tight">
-              ⛏️ CraftLand —<br />
+              ⛏️ KLEVER —<br />
               <span className="text-white/90">лучший сервер</span>
             </h1>
 
@@ -67,11 +67,11 @@ export default function PageHome({ navigate }: { navigate: (p: Page) => void }) 
               </div>
               <div>
                 <div className="text-xs text-white/40">IP сервера</div>
-                <div className="font-mono font-bold text-sm">play.craftland.ru</div>
+                <div className="font-mono font-bold text-sm">play.klever.ru</div>
               </div>
               <button
                 className="ml-2 text-white/30 hover:text-white/70 transition-colors"
-                onClick={() => navigator.clipboard?.writeText("play.craftland.ru")}
+                onClick={() => navigator.clipboard?.writeText("play.klever.ru")}
                 title="Копировать"
               >
                 <Icon name="Copy" size={14} />
@@ -118,7 +118,7 @@ export default function PageHome({ navigate }: { navigate: (p: Page) => void }) 
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
-            <h2 className="text-4xl font-black mb-3">почему CraftLand?</h2>
+            <h2 className="text-4xl font-black mb-3">почему KLEVER?</h2>
             <p className="text-white/40 text-lg">всё что нужно для крутой игры — уже здесь</p>
           </div>
 

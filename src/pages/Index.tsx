@@ -51,7 +51,7 @@ export default function Index() {
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             <span className="text-2xl">⛏️</span>
-            <span className="font-bold text-lg tracking-tight text-white">CraftLand</span>
+            <span className="font-bold text-lg tracking-tight text-white">KLEVER</span>
           </button>
 
           <nav className="hidden md:flex items-center gap-2">
@@ -127,7 +127,7 @@ export default function Index() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="text-xl">⛏️</span>
-            <span className="font-bold text-white/80">CraftLand</span>
+            <span className="font-bold text-white/80">KLEVER</span>
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-sm text-white/30">
             {NAV.map((n) => (
@@ -140,7 +140,7 @@ export default function Index() {
               </button>
             ))}
           </div>
-          <div className="text-sm text-white/20">play.craftland.ru</div>
+          <div className="text-sm text-white/20">play.klever.ru</div>
         </div>
       </footer>
     </div>
