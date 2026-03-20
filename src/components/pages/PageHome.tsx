@@ -1,8 +1,10 @@
 import { type Page } from "@/pages/Index";
+import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 const SKIN_IMG = "https://cdn.poehali.dev/projects/ab38a02c-8f80-4e9b-8222-cb59c6217a6e/files/f1df1fc6-666e-4814-b8e1-63914c178453.jpg";
 const GROUP_IMG = "https://cdn.poehali.dev/projects/ab38a02c-8f80-4e9b-8222-cb59c6217a6e/files/9bdf9f4a-e7b6-4694-ab28-acd0af888a0a.jpg";
+const SERVER_STATUS_URL = "https://functions.poehali.dev/22c42b71-135b-4618-bd1c-c9ace834488b";
 
 const FEATURES = [
   { emoji: "🏰", title: "Survival с экономикой", desc: "Торгуй, строй города, развивай своё государство" },
@@ -13,28 +15,70 @@ const FEATURES = [
   { emoji: "💬", title: "Сообщество", desc: "Дружелюбный Discord с 2000+ участниками" },
 ];
 
-const STATS = [
-  { value: "247", label: "онлайн сейчас" },
-  { value: "12к+", label: "игроков" },
-  { value: "1043", label: "дней работы" },
-  { value: "99.9%", label: "аптайм" },
-];
+type ServerStatus = {
+  online: boolean;
+  players: number;
+  max_players: number;
+  version: string;
+};
 
 export default function PageHome({ navigate }: { navigate: (p: Page) => void }) {
+  const [status, setStatus] = useState<ServerStatus | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    fetch(SERVER_STATUS_URL)
+      .then((r) => r.json())
+      .then((d) => setStatus(d))
+      .catch(() => setStatus({ online: false, players: 0, max_players: 0, version: "" }));
+  }, []);
+
+  const handleCopy = () => {
+    navigator.clipboard?.writeText("185.9.145.187:30043");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const playersText = status
+    ? status.online
+      ? `${status.players} игроков онлайн`
+      : "сервер недоступен"
+    : "загрузка...";
+
+  const isOnline = status?.online ?? null;
+
+  const STATS = [
+    { value: status ? String(status.players) : "...", label: "онлайн сейчас" },
+    { value: status ? String(status.max_players) : "...", label: "слотов" },
+    { value: "1043", label: "дней работы" },
+    { value: "99.9%", label: "аптайм" },
+  ];
+
   return (
     <div className="overflow-hidden">
       {/* HERO */}
       <section className="relative min-h-[90vh] flex items-center">
-        {/* Red glow bg like foxward */}
         <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-red-900/20 blur-[120px] pointer-events-none" />
         <div className="absolute top-10 right-0 w-[400px] h-[400px] rounded-full bg-orange-900/10 blur-[100px] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 w-full grid md:grid-cols-2 gap-12 items-center py-20">
-          {/* Left */}
           <div className="animate-fade-in">
-            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-sm text-white/60 mb-6">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              247 игроков онлайн
+            {/* Live status badge */}
+            <div className={`inline-flex items-center gap-2 border rounded-full px-4 py-1.5 text-sm mb-6 transition-colors ${
+              isOnline === null
+                ? "bg-white/5 border-white/10 text-white/50"
+                : isOnline
+                ? "bg-green-500/10 border-green-500/20 text-green-400"
+                : "bg-red-500/10 border-red-500/20 text-red-400"
+            }`}>
+              <span className={`w-2 h-2 rounded-full ${
+                isOnline === null ? "bg-white/30" :
+                isOnline ? "bg-green-400 animate-pulse" : "bg-red-400"
+              }`} />
+              {playersText}
+              {status?.version && (
+                <span className="text-white/30 text-xs ml-1">· {status.version}</span>
+              )}
             </div>
 
             <h1 className="text-5xl md:text-6xl font-black leading-tight mb-4 tracking-tight">
@@ -67,14 +111,17 @@ export default function PageHome({ navigate }: { navigate: (p: Page) => void }) 
               </div>
               <div>
                 <div className="text-xs text-white/40">IP сервера</div>
-                <div className="font-mono font-bold text-sm">play.klever.ru</div>
+                <div className="font-mono font-bold text-sm">185.9.145.187:30043</div>
               </div>
               <button
-                className="ml-2 text-white/30 hover:text-white/70 transition-colors"
-                onClick={() => navigator.clipboard?.writeText("play.klever.ru")}
+                className="ml-2 transition-colors"
+                onClick={handleCopy}
                 title="Копировать"
               >
-                <Icon name="Copy" size={14} />
+                {copied
+                  ? <span className="text-green-400 text-xs font-semibold">✓</span>
+                  : <Icon name="Copy" size={14} className="text-white/30 hover:text-white/70" />
+                }
               </button>
             </div>
           </div>
@@ -89,10 +136,9 @@ export default function PageHome({ navigate }: { navigate: (p: Page) => void }) 
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            {/* Floating badge */}
             <div className="absolute bottom-6 -left-4 bg-[#1a1a1a] border border-white/10 rounded-2xl px-4 py-3 shadow-xl">
               <div className="text-xs text-white/40 mb-1">версия</div>
-              <div className="font-bold text-sm">1.20.4 Java</div>
+              <div className="font-bold text-sm">{status?.version || "1.21.1 Java"}</div>
             </div>
             <div className="absolute top-6 -right-4 bg-[#1a1a1a] border border-white/10 rounded-2xl px-4 py-3 shadow-xl">
               <div className="text-xs text-white/40 mb-1">режим</div>
